@@ -1,0 +1,43 @@
+# Homebrewのアップデートを行う
+update
+
+# Formulaのアップブレードを行う
+upgrade
+
+# リポジトリの追加を行う
+tap caskroom/cask
+tap ariela/my-osx-bundle
+
+# パッケージのインストール
+install zsh
+install git
+install wget
+install brew-cask
+
+# App Storeで購入している物は未記載
+# (cask) アプリケーションのインストール
+cask install wacom-tablet
+cask install vlc
+cask install google-chrome
+cask install flash
+cask install quicksilver
+cask install totalfinder
+cask install iterm2
+cask install sourcetree
+cask install dropbox
+cask install blueharvest
+cask install cyberduck
+cask install coteditor
+cask install netbeans-php
+cask install virtualbox
+cask install vagrant
+cask install vagrant-manager
+cask install notifyr
+
+# (self) アプリケーションのインストール
+cask install atok-passport
+cask install sublime-text3
+cask install clipstudio-paint
+
+# 古いバージョンを取り除く
+cleanup
