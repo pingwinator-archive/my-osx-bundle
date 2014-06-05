@@ -11,8 +11,11 @@ Xcodeを導入済みである事
 
 使用方法
 --------
+
+```bash
 git clone https://github.com/ariela/my-osx-bundle.git ~/my-osx-bundle
 sh ~/my-osx-bundle/install.sh
+```
 
 インストール内容
 ----------------
