@@ -33,6 +33,12 @@ cask install virtualbox
 cask install vagrant
 cask install vagrant-manager
 cask install notifyr
+cask install qlcolorcode
+cask install qlstephen
+cask install qlmarkdown
+cask install qlprettypatch
+cask install quicklook-json
+cask install quicklook-csv
 
 # (self) アプリケーションのインストール
 cask install atok-passport
