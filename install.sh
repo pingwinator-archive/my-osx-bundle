@@ -39,3 +39,15 @@ if [ -e ${HOME}/.vim ]; then; rm -f ${HOME}/.vim; fi
 if [ -e ${HOME}/.vimrc ]; then; rm -f ${HOME}/.vimrc; fi
 /bin/ln -sf ${DIR_SCRIPT}/dotfiles/vim ${HOME}/.vim
 /bin/ln -sf ${DIR_SCRIPT}/dotfiles/vimrc ${HOME}/.vimrc
+
+# nvm install
+curl https://raw.github.com/creationix/nvm/master/install.sh | sh
+exec $SHELL -l
+NVM_VERSION=`nvm ls-remote | sed "s/^.*\(v[0-9]*\.[0-9]*\.[0-9]*\).*$/\1/" | tail -1`
+nvm install ${NVM_VERSION}
+nvm use ${NVM_VERSION}
+nvm alias default ${NVM_VERSION}
+
+# npm install
+curl http://npmjs.org/install.sh | sh
+
