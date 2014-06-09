@@ -7,12 +7,14 @@ my-osx-bundle
 
 前提
 ----
-Xcodeを導入済みである事
+* Xcodeを導入済みである事。
 
 使用方法
 --------
 
 ```bash
+sudo /usr/bin/xcodebuild -license
+# 途中で「agree」を入力して同意する
 git clone https://github.com/ariela/my-osx-bundle.git ~/my-osx-bundle
 sh ~/my-osx-bundle/install.sh
 ```

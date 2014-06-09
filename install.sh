@@ -8,12 +8,11 @@ cd ${HOME}
 
 # install xcode command line tools
 /usr/bin/xcode-select --install
+echo -n "Installed xcode command line tools ?> "
+read INPUT
 
 # install homebrew
 /usr/bin/ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
-
-# get Xcode's license
-/usr/bin/xcodebuild -license
 
 # install packages from homebrew
 /usr/local/bin/brew bundle ${DIR_SCRIPT}/files/Brewfile
