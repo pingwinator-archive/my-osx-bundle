@@ -20,14 +20,18 @@ fi
 /usr/local/bin/brew bundle ${DIR_SCRIPT}/files/Brewfile
 
 # change use shell
-/usr/bin/sudo /bin/cp -f ./files/shells /etc/shells
+/usr/bin/sudo /bin/cp -f ${DIR_SCRIPT}/files/shells /etc/shells
 /usr/bin/sudo /bin/chmod 644 /etc/shells
 /usr/bin/sudo /usr/sbin/chown root:wheel /etc/shells
 /usr/bin/chpass -s /usr/local/bin/zsh
 
 # zsh configuration
-if [ -e ${HOME}/.zsh ]; then; rm -f ${HOME}/.zsh; fi
-if [ -e ${HOME}/.zshrc ]; then; rm -f ${HOME}/.zshrc; fi
+if [ -e ${HOME}/.zsh ]; then
+	rm -f ${HOME}/.zsh
+fi
+if [ -e ${HOME}/.zshrc ]; then
+	rm -f ${HOME}/.zshrc
+fi
 /bin/ln -sf ${DIR_SCRIPT}/dotfiles/zsh ${HOME}/.zsh
 /bin/ln -sf ${DIR_SCRIPT}/dotfiles/zshrc ${HOME}/.zshrc
 if [ ! -e ${HOME}/.zsh/brew_token ]; then
@@ -36,8 +40,12 @@ if [ ! -e ${HOME}/.zsh/brew_token ]; then
 fi
 
 # vim configuration
-if [ -e ${HOME}/.vim ]; then; rm -f ${HOME}/.vim; fi
-if [ -e ${HOME}/.vimrc ]; then; rm -f ${HOME}/.vimrc; fi
+if [ -e ${HOME}/.vim ]; then
+	rm -f ${HOME}/.vim
+fi
+if [ -e ${HOME}/.vimrc ]; then
+	rm -f ${HOME}/.vimrc
+fi
 /bin/ln -sf ${DIR_SCRIPT}/dotfiles/vim ${HOME}/.vim
 /bin/ln -sf ${DIR_SCRIPT}/dotfiles/vimrc ${HOME}/.vimrc
 
