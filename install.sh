@@ -69,3 +69,6 @@ fi
 
 defaults write com.apple.finder AppleShowAllFiles TRUE
 defaults write com.apple.desktopservices DSDontWriteNetworkStores TRUE
+
+# ダッシュボード無効化
+defaults write com.apple.dashboard mcx-disabled -bool YES
