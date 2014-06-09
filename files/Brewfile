@@ -6,6 +6,7 @@ upgrade
 
 # リポジトリの追加を行う
 tap caskroom/cask
+tap caskroom/versions
 tap ariela/ariela-cask
 
 # パッケージのインストール
@@ -29,6 +30,7 @@ cask install dropbox
 cask install blueharvest
 cask install cyberduck
 cask install coteditor
+cask install java7
 cask install netbeans-php
 cask install virtualbox
 cask install vagrant
