@@ -66,3 +66,6 @@ curl -L http://npmjs.org/install.sh | sh
 if [ ! -e ${HOME}/Applications/.localized ]; then
 	/bin/cp -f /Applications/.localized ${HOME}/Applications/
 fi
+
+defaults write com.apple.finder AppleShowAllFiles TRUE
+defaults write com.apple.desktopservices DSDontWriteNetworkStores TRUE
