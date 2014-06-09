@@ -53,8 +53,8 @@ sh ~/my-osx-bundle/install.sh
 * ZSHの設定反映
 * VIMの設定反映
 
-homebrew-cask
--------------
+[ariela/homebrew-ariela-cask](https://github.com/ariela/homebrew-ariela-cask/)
+---------------------------
 独自に作成したcaskの定義。サポート無しです。
 
 * atok-passport
