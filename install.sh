@@ -50,12 +50,14 @@ fi
 /bin/ln -sf ${DIR_SCRIPT}/dotfiles/vimrc ${HOME}/.vimrc
 
 # nvm install
-curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | sh
-source ${HOME}/.nvm/nvm.sh
-NVM_VERSION=`nvm ls-remote | sed "s/^.*\(v[0-9]*\.[0-9]*\.[0-9]*\).*$/\1/" | tail -1`
-nvm install ${NVM_VERSION}
-nvm use ${NVM_VERSION}
-nvm alias default ${NVM_VERSION}
+if [ ! -e ${HOME}/.nvm/nvm.sh ]; then
+	curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | sh
+	source ${HOME}/.nvm/nvm.sh
+	NVM_VERSION=`nvm ls-remote | sed "s/^.*\(v[0-9]*\.[0-9]*\.[0-9]*\).*$/\1/" | tail -1`
+	nvm install ${NVM_VERSION}
+	nvm use ${NVM_VERSION}
+	nvm alias default ${NVM_VERSION}
+fi
 
 # npm install
 curl -L http://npmjs.org/install.sh | sh
