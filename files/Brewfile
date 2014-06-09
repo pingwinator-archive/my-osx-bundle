@@ -6,7 +6,7 @@ upgrade
 
 # リポジトリの追加を行う
 tap caskroom/cask
-tap ariela/my-osx-bundle
+tap ariela/ariela-cask
 
 # パッケージのインストール
 install zsh
