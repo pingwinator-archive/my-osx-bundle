@@ -13,6 +13,7 @@ tap ariela/ariela-cask
 install zsh
 install git
 install wget
+install md5sha1sum
 install brew-cask
 
 # App Storeで購入している物は未記載
