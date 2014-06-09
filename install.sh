@@ -62,3 +62,7 @@ fi
 # npm install
 curl -L http://npmjs.org/install.sh | sh
 
+# 微調整
+if [ ! -e ${HOME}/Applications/.localized ]; then
+	/bin/cp -f /Applications/.localized ${HOME}/Applications/
+fi
