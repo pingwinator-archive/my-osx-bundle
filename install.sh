@@ -58,5 +58,5 @@ nvm use ${NVM_VERSION}
 nvm alias default ${NVM_VERSION}
 
 # npm install
-curl http://npmjs.org/install.sh | sh
+curl -L http://npmjs.org/install.sh | sh
 
