@@ -1,77 +1,143 @@
-## 基本設定 ==============================================================
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+# 関数定義
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+###
+# 現在のパスの後ろに指定したパスを追加する
+# その際、重複したパス指定は無視される
+###
+append_path() { export PATH=$PATH:$1 }
 
+###
+# 現在のパスの前に指定したパスを追加する
+# その際、重複したパス指定は無視される
+###
+prepend_path() { export PATH=$1:$PATH }
 
-## 環境変数設定 ==========================================================
-[ ! `echo $PATH | grep "/usr/local/bin"` ] && export PATH=/usr/local/bin:$PATH
-[ ! `echo $PATH | grep "${HOME}/bin"` ]    && export PATH=${HOME}/bin:$PATH
-# パス設定
-typeset -xT SUDO_PATH sudo_path
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+# 環境変数の設定
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+# 重複パスを登録しない
+typeset -U PATH
 typeset -U sudo_path
-sudo_path=({,/usr/pkg,/usr/local,/usr}/sbin(N-/))
 
-
-# EDITOR設定
-export EDITOR=vim
-
-# LANG設定
-export LANG=ja_JP.UTF-8
-
-# ターミナル設定
-export TERM=xterm-256color
-
-# 実行時間
-REPORTTIME=3
-
-
-#------------------------------------------------------------------------
-# log configuration
-#------------------------------------------------------------------------
-HISTFILE=${HOME}/.zsh_history
-HISTSIZE=100000
-SAVEHIST=100000
-setopt hist_ignore_dups
-setopt share_history
-#setopt extended_history
-#function history-all { history -E 1 }
-#setopt COMPLETE_IN_WORD
-
-
-#------------------------------------------------------------------------
-# completion configuration
-#------------------------------------------------------------------------
-fpath=(${HOME}/.zsh/functions/Completion ${fpath})
+# 補完関数のパスを設定
+fpath=(${HOME}/.zsh/functions ${fpath})
 fpath=(${HOME}/.zsh/modules/zsh-completions/src ${fpath})
 
-autoload -U compinit; compinit
-setopt complete_in_word
-setopt glob_complete
-setopt hist_expand
-setopt numeric_glob_sort
+# 追加パスを設定
+prepend_path "/usr/local/bin"
+prepend_path "${HOME}/bin"
+
+# sudo用パスの設定
+typeset -xT SUDO_PATH sudo_path
+sudo_path=({,/usr/pkg,/usr/local,/usr}/sbin(N-/))
+
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+# 基本設定
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+export LANG=ja_JP.UTF-8                          # LANG設定
+export EDITOR=vim                                # EDITOR設定
+export TERM=xterm-256color                       # ターミナル設定
+REPORTTIME=3                                     # 実行時間
+#export WORDCHARS='*?-[]~\!#%^(){}<>|`@#%^*()+:?' # 単語として認識したい文字
+
+# 色設定
+export LSCOLORS=gxfxcxdxbxegedabagacad
+export LS_COLORS='di=36:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
+
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+# ログ設定
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+HISTFILE=${HOME}/.zsh_history           # ヒストリーファイルのパス
+HISTSIZE=10000000                       # 履歴件数：メモリ
+SAVEHIST=${HISTSIZE}                    # 履歴変数：ファイル
+setopt hist_ignore_dups                 # ヒストリーの重複を防ぐ
+setopt share_history                    # 複数端末間でヒストリーを共有する
+#setopt extended_history                # ヒストリーに実行時刻・時間を保存する
+setopt inc_append_history               # すぐにヒストリーファイルに追記する
+function history-all { history -E 1 }   # 全てのヒストリーを表示する関数
+
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+# 補完設定
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+autoload -U compinit
+compinit -u
+
+#setopt COMPLETE_IN_WORD     # コマンド自動修正機能をON
+setopt glob_complete        # globを展開しないで候補の一覧から補完する。
+setopt hist_expand          # 補完時にヒストリを自動展開する
+setopt numeric_glob_sort    # 補完リストを数字順に並べる
+setopt mark_dirs            # パスがディレクトリの場合に最後「/」付与
+setopt print_eight_bit      # 出力時8ビットを通す
+setopt magic_equal_subst    # 〜等以降にファイル名展開を行う
+
+# 補完メニューを使用する
+zstyle ':completion:*:default' menu select=2
+
+# 補完候補に色をつける
+#zstyle ':completion:*:default' list-colors
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*:default' memu select=2
+
+# 補完候補をグループ化
 zstyle ':completion:*' format '%B%d%b'
 zstyle ':completion:*' group-name ''
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z} r:|[._-]=*'
+
+# sudoの場合はSUDO_PATHも利用する
+zstyle ':completion:sudo:*' environ PATH="$SUDO_PATH:$PATH"
+
+# 補完キャッシュを利用する
 zstyle ':completion:*' use-cache yes
+
+# 詳細を表示する
 zstyle ':completion:*' verbose yes
-#zstyle ':completion:*' completer _oldlist \
-#                                 _match \
-#                                 _history \
-#                                 _ignored \
-#                                 _approximate \
-#                                 _prefix
-zstyle ':completion:*:sudo:*' command-path /usr/local/sbin \
-                                           /usr/local/bin \
-                                           /usr/sbin \
-                                           /usr/bin \
-                                           /sbin \
-                                           /bin \
-                                           /usr/X11R6/bin
 
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+# エイリアス設定
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+alias ls="ls -G -w"
+alias ll='ls -G -w -al'
+alias la='ls -G -w -a'
+alias where="command -v"
+alias j="jobs -l"
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+alias cls='clear'
+alias lf="ls -F"
+alias du="du -h"
+alias df="df -h"
+alias vi="vim"
+alias sudo="sudo PATH=$PATH"
 
-#------------------------------------------------------------------------
-# prompt configuration
-#------------------------------------------------------------------------
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+# ディレクトリ移動設定
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+setopt auto_cd      # ディレクトリ名が指定された場合はcd
+setopt auto_pushd   # cdでディレクトリスタックに追加
+cdpath=(~)          # カレントに無いディレクトリが指定された場合に検索して移動
+
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+# grepの設定
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+# デフォルトオプション指定
+export GREP_OPTIONS
+
+# バイナリファイルは無視
+GREP_OPTIONS="--binary-files=without-match ${GREP_OPTIONS}"
+
+# 拡張子「.tmp」のファイルは無視
+GREP_OPTIONS="--exclude=\*.tmp ${GREP_OPTIONS}"
+
+# 管理系のディレクトリを無視する
+GREP_OPTIONS="--exclude-dir=.svn ${GREP_OPTIONS}"
+GREP_OPTIONS="--exclude-dir=.git ${GREP_OPTIONS}"
+
+# 結果に色づけを行う
+GREP_OPTIONS="--color=auto ${GREP_OPTIONS}"
+
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+# コンソールの設定
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 autoload -U colors zsh/terminfo
 colors
 setopt prompt_subst
@@ -103,9 +169,9 @@ local pl_line2="${p_mark}"
 
 PROMPT="${pl_line1}"$'\n'"${pl_line2} "
 
-#------------------------------------------------------------------------
-# version controll configuration
-#------------------------------------------------------------------------
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+# バージョン管理の情報
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 RPROMPT=""
 
 autoload -Uz vcs_info
@@ -282,49 +348,48 @@ function _update_vcs_info_msg() {
 }
 add-zsh-hook precmd _update_vcs_info_msg
 
-#------------------------------------------------------------------------
-# Alias configuration
-#------------------------------------------------------------------------
-setopt complete_aliases
 
-case "${OSTYPE}" in
-freebsd*|darwin*)
-    alias ls="ls -G -w"
-    alias ll='ls -G -w -al'
-    alias la='ls -G -w -a'
-    ;;
-linux*)
-    alias ls="ls --color=auto -v"
-    alias ll='ls --color=auto -alh'
-    alias la='ls --color=auto -a'
-    ;;
-esac
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+# プラグイン設定
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 
-alias where="command -v"
-alias j="jobs -l"
-alias grep='grep --color=auto'
-alias rm='rm -i'
-alias cp='cp -i'
-alias mv='mv -i'
-alias cls='clear'
-alias lf="ls -F"
-alias du="du -h"
-alias df="df -h"
-alias vi="vim"
-alias sudo="sudo PATH=$PATH"
 
 #------------------------------------------------------------------------
-# Load local configuration
+# コマンドが指定秒数以上たって終了した場合は通知センターへ通知
+#------------------------------------------------------------------------
+alias pong='perl -nle '\''print "display notification \"$_\" with title \"Terminal\""'\'' | osascript'
+preexec() {
+    zsh_notify_cmd=$1
+    zsh_notify_time=`date +%s`
+}
+
+precmd() {
+    if (( $? == 0 )); then
+        # message
+        zsh_notify_status=done\!\!
+    else
+        zsh_notify_status=fail
+    fi
+    if [[ "${zsh_notify_cmd}" != "" ]]; then
+        # time
+        if (( `date +%s` - ${zsh_notify_time} > ${REPORTTIME} )); then
+            echo ${zsh_notify_cmd} ${zsh_notify_status}  | pong
+        fi
+    fi
+    zsh_notify_cmd=
+}
+
+#------------------------------------------------------------------------
+# ローカル用設定ファイルを読み込む
 #------------------------------------------------------------------------
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
 #------------------------------------------------------------------------
-# Load brew token
+# homebrew用のgithubトークンを読み込む
 #------------------------------------------------------------------------
 [ -f ~/.zsh/brew_token ] && source ~/.zsh/brew_token
 
 #------------------------------------------------------------------------
-# NVM configuration
+# nvm設定を読み込む
 #------------------------------------------------------------------------
 [[ -s ${HOME}/.nvm/nvm.sh ]] && . ${HOME}/.nvm/nvm.sh
-
