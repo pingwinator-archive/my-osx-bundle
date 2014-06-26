@@ -6,6 +6,9 @@ DIR_SCRIPT="$(cd "$(dirname "${BASH_SOURCE:-$0}")"; pwd)"
 # goto home directory
 cd ${HOME}
 
+# pecoを実行可能に設定
+ln -sf ${DIR_SCRIPT}/bin/peco /usr/local/bin/peco
+
 # install xcode command line tools
 /usr/bin/xcode-select --install
 echo "Installed xcode command line tools ?> "
