@@ -5,6 +5,8 @@ history-all | grep
 # gem
 gem install --no-ri --no-rdoc 
 
+bundle install --path vendor/bundle 
+
 # chef
 bundle exec knife solo cook 
 bundle exec knife cookbook create -o site-cookbooks 
