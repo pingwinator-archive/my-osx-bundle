@@ -7,6 +7,7 @@ upgrade
 # リポジトリの追加を行う
 tap caskroom/cask
 tap caskroom/versions
+tap peco/peco
 tap ariela/ariela-cask
 
 # パッケージのインストール
@@ -15,6 +16,7 @@ install git
 install wget
 install md5sha1sum
 install brew-cask
+install peco
 
 # App Storeで購入している物は未記載
 # (cask) アプリケーションのインストール

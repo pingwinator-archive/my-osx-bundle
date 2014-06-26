@@ -7,7 +7,6 @@ DIR_SCRIPT="$(cd "$(dirname "${BASH_SOURCE:-$0}")"; pwd)"
 cd ${HOME}
 
 # pecoを実行可能に設定
-ln -sf ${DIR_SCRIPT}/bin/peco /usr/local/bin/peco
 ln -sf ${DIR_SCRIPT}/dotfiles/snippets ${HOME}/.snippets
 
 # install xcode command line tools
