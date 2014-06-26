@@ -1,0 +1,22 @@
+# search
+history-all | grep 
+
+
+# gem
+gem install --no-ri --no-rdoc 
+
+# chef
+bundle exec knife solo cook 
+bundle exec knife cookbook create -o site-cookbooks 
+bundle exec knife solo data bag create --secret-file ./data_bag_key 
+
+# netstat
+netstat -an
+netstat -an | grep 'LISTEN'
+
+# file pack
+openssl enc -e -aes-256-cbc -salt -in file -out file
+openssl enc -d -aes-256-cbc -salt -in file -out file
+
+# date format
+date +"%Y%m%d"
