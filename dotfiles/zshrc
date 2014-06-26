@@ -13,6 +13,30 @@ append_path() { export PATH=$PATH:$1 }
 ###
 prepend_path() { export PATH=$1:$PATH }
 
+###
+# pecoでヒストリーを選択する
+###
+function peco-select-history() {
+    local tac
+    if which tac > /dev/null; then
+        tac="tac"
+    else
+        tac="tail -r"
+    fi
+    BUFFER=$(history -n 1 | eval $tac | peco --query "$LBUFFER")
+    CURSOR=$#BUFFER
+    zle clear-screen
+}
+
+###
+# pecoでスニペットを選択する
+###
+function peco-select-snippets() {
+    BUFFER=$(grep -v "^#" ~/.snippets | peco --query "$LBUFFER")
+    CURSOR=$#BUFFER
+    zle clear-screen
+}
+
 #---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 # 環境変数の設定
 #---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
@@ -90,6 +114,14 @@ zstyle ':completion:*' use-cache yes
 
 # 詳細を表示する
 zstyle ':completion:*' verbose yes
+
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+# peco設定
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+zle -N peco-select-history
+zle -N peco-select-snippets
+bindkey '^r' peco-select-history
+bindkey '^x' peco-select-snippets
 
 #---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 # エイリアス設定
