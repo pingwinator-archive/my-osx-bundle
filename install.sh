@@ -23,6 +23,10 @@ fi
 # install packages from homebrew
 /usr/local/bin/brew bundle ${DIR_SCRIPT}/files/Brewfile
 
+# install pecrant
+curl -o /usr/local/bin/pecrant https://raw.githubusercontent.com/gongo/pecrant/master/pecrant
+chmod +x /usr/local/bin/pecrant
+
 # change use shell
 /usr/bin/sudo /bin/cp -f ${DIR_SCRIPT}/files/shells /etc/shells
 /usr/bin/sudo /bin/chmod 644 /etc/shells
