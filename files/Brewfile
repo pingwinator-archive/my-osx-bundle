@@ -16,6 +16,7 @@ install git
 install wget
 install md5sha1sum
 install brew-cask
+install go --cross-compile-common
 install peco
 
 # App Storeで購入している物は未記載
